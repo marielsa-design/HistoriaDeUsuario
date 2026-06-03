@@ -72,8 +72,3 @@ export function renderTasks() {
   </main>
     `
 }
-
-export function renderTasks() {
-
-
-}

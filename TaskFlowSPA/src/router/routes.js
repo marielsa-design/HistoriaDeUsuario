@@ -48,4 +48,4 @@ export const routers = {
     }
 }
 
-export const notFoundView = routers["renderNotFound"];
+export const notFoundView = renderNotFound;

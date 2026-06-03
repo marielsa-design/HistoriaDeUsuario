@@ -5,32 +5,28 @@ export function renderRouter() {
     const currentPath = window.location.pathname;
     const router = routers[currentPath] ?? { render: notFoundView };
 
-    app.innerHTML = router.render()
+    app.innerHTML = router.render();
 
     if (router.setup) {
-        router.setup()
+        router.setup();
     }
 }
 
 export function initRouter() {
     document.addEventListener("click", (event) => {
-        const link = event.target.closest("a")
+        const link = event.target.closest("a");
 
-        if (!link) {
-            return;
-        }
+        if (!link) return;
 
         const href = link.getAttribute("href");
 
-        if (!href || !href.startsWith("/")) {
-            return
-        }
+        if (!href || !href.startsWith("/")) return;
 
-        event.preventDefault()
-        window.history.pushState({}, "", href)
-        renderRouter()
-        
+        event.preventDefault();
+        window.history.pushState({}, "", href);
+        renderRouter();
     });
+
+    window.addEventListener("popstate", renderRouter);
+    renderRouter();
 }
-    window.addEventListener("popstate", renderRouter)
-    renderRouter()

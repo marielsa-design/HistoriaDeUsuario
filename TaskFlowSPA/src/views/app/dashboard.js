@@ -1,36 +1,31 @@
-import { renderRouter } from "../../router/router";
 export function renderDashboard() {
     return `
-<main class="flex min-h-screen items-center justify-center px-6 py-10">
-  <section
-    class="w-full max-w-2xl rounded-[2rem] border border-blue-100 bg-white p-10 text-center shadow-xl shadow-blue-100/70">
-    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-blue-600">Error de navegacion</p>
-    <h1 class="mt-4 text-6xl font-black tracking-tight text-slate-900">404</h1>
-    <p class="mt-4 text-lg text-slate-600">La vista que intentas abrir no existe o todavia no esta disponible dentro del
-      proyecto.</p>
-    <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-      <a class="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-bold text-white hover:bg-blue-500"
-        href="/home">Ir a home</a>
-      <a class="inline-flex items-center justify-center rounded-2xl border border-blue-200 bg-white px-5 py-3 text-sm font-bold text-blue-700 hover:bg-blue-50"
-        href="/login">Volver al login</a>
+<body class="min-h-screen bg-sky-50 text-slate-800">
+  <header class="border-b border-blue-100 bg-white/90 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <a class="text-xl font-black text-blue-900" href="/">TaskFlowSPA</a>
+      <nav class="hidden gap-3 md:flex">
+        <a class="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white"
+          href="/dashboard">Dashboard</a>
+        <a class="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700"
+          href="/tasks">Tareas</a>
+        <a class="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700"
+          href="/admin">Admin</a>
+      </nav>
     </div>
-  </section>
-</main>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-6 py-10">
+    <section class="rounded-[2rem] bg-blue-600 px-8 py-10 text-white">
+      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-blue-100">Bienvenido</p>
+      <h1 class="mt-3 text-4xl font-black tracking-tight">Dashboard</h1>
+      <p class="mt-4 max-w-2xl text-blue-50">Resumen general de tus tareas y actividad reciente.</p>
+    </section>
+  </main>
+</body>
     `
 }
 
-const setupDashboard = () => {
-    alert("setup del dashboard");
-    const link = document.querySelector("a[href='/src/views/home.html']");
-    if (link) {
-        link.addEventListener("click", (event) => {
-            event.preventDefault();
-            window.history.pushState({}, "", "/");
-            renderRouter();
-        });
-    } else {
-        alert("no se encontro el link");
-    }
+export const setupDashboard = () => {
+    // lógica del dashboard: cargar datos, gráficas, etc.
 }
-
-export { setupDashboard }
