@@ -27,5 +27,5 @@ export function renderDashboard() {
 }
 
 export const setupDashboard = () => {
-    // lógica del dashboard: cargar datos, gráficas, etc.
+    
 }

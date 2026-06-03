@@ -47,60 +47,89 @@ export function renderLogin() {
 `
 }
 
-export function setupLogin() {
-    window.mostrarTab = function(tab) {
-        const formLogin = document.getElementById("form-login")
-        const formSignup = document.getElementById("form-signup")
-        const tabLogin = document.getElementById("tab-login")
-        const tabSignup = document.getElementById("tab-signup")
 
-        if (tab === "login") {
-            formLogin.classList.remove("hidden")
-            formSignup.classList.add("hidden")
-            tabLogin.classList.add("text-indigo-600", "border-b-2", "border-indigo-600")
-            tabLogin.classList.remove("text-slate-400")
-            tabSignup.classList.remove("text-indigo-600", "border-b-2", "border-indigo-600")
-            tabSignup.classList.add("text-slate-400")
-        } else {
-            formSignup.classList.remove("hidden")
-            formLogin.classList.add("hidden")
-            tabSignup.classList.add("text-indigo-600", "border-b-2", "border-indigo-600")
-            tabSignup.classList.remove("text-slate-400")
-            tabLogin.classList.remove("text-indigo-600", "border-b-2", "border-indigo-600")
-            tabLogin.classList.add("text-slate-400")
-        }
+export function setupLoginFrom() {
+  const loginForm = document.querySelector("form")
+  const loginButton = loginForm?.querySelector('ahref="/dashboard"]')
+
+  if (!loginForm || !loginButton) {
+    return
+  }
+
+  loginButton.addEventListener("click", async (event) => {
+    event.preventDefaulf()
+    event.stopPropagation()
+
+    const email = document.getElementById("email")?.value ?? ""
+    const password = document.getElementById("password")?.value ?? ""
+
+    try {
+      const user = await loginUser({ email, password})
+
+      saveSession(user)
+      showSuccessToast("Inicio de sesión correcto.")
+      window.history.pushState({}, "", "/dashboard")
+      window.dispatchEvent(new PopStateEvent("popstate"))
+    } catch (error) {
+      showErrorToast(error.message)
     }
-
-    window.iniciarSesion = function() {
-        const usuario = document.getElementById("login-email").value.trim()
-        const password = document.getElementById("login-password").value.trim()
-
-        if (usuario === "Marielsa" && password === "1234") {
-            localStorage.setItem("usuarioActivo", JSON.stringify({ nombre: "Marielsa" }))
-            // ✅ Navega por el router, no por href estático
-            window.history.pushState({}, "", "/dashboard")
-            renderRouter()
-        } else {
-            document.getElementById("login-error").classList.remove("hidden")
-        }
-    }
-
-    window.registrarse = function() {
-        const nombre = document.getElementById("signup-nombre").value.trim()
-        const usuario = document.getElementById("signup-email").value.trim()
-        const password = document.getElementById("signup-password").value.trim()
-
-        if (!nombre || !usuario || !password) {
-            document.getElementById("signup-error").classList.remove("hidden")
-            return
-        }
-
-        const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]")
-        usuarios.push({ nombre, usuario, password })
-        localStorage.setItem("usuarios", JSON.stringify(usuarios))
-
-        document.getElementById("signup-error").classList.add("hidden")
-        document.getElementById("signup-success").classList.remove("hidden")
-        setTimeout(() => mostrarTab("login"), 1500)
-    }
+  })
 }
+
+// export function setupLogin() {
+//     window.mostrarTab = function(tab) {
+//         const formLogin = document.getElementById("form-login")
+//         const formSignup = document.getElementById("form-signup")
+//         const tabLogin = document.getElementById("tab-login")
+//         const tabSignup = document.getElementById("tab-signup")
+
+//         if (tab === "login") {
+//             formLogin.classList.remove("hidden")
+//             formSignup.classList.add("hidden")
+//             tabLogin.classList.add("text-indigo-600", "border-b-2", "border-indigo-600")
+//             tabLogin.classList.remove("text-slate-400")
+//             tabSignup.classList.remove("text-indigo-600", "border-b-2", "border-indigo-600")
+//             tabSignup.classList.add("text-slate-400")
+//         } else {
+//             formSignup.classList.remove("hidden")
+//             formLogin.classList.add("hidden")
+//             tabSignup.classList.add("text-indigo-600", "border-b-2", "border-indigo-600")
+//             tabSignup.classList.remove("text-slate-400")
+//             tabLogin.classList.remove("text-indigo-600", "border-b-2", "border-indigo-600")
+//             tabLogin.classList.add("text-slate-400")
+//         }
+//     }
+
+//     window.iniciarSesion = function() {
+//         const usuario = document.getElementById("login-email").value.trim()
+//         const password = document.getElementById("login-password").value.trim()
+
+//         if (usuario === "Marielsa" && password === "1234") {
+//             localStorage.setItem("usuarioActivo", JSON.stringify({ nombre: "Marielsa" }))
+//             // ✅ Navega por el router, no por href estático
+//             window.history.pushState({}, "", "/dashboard")
+//             renderRouter()
+//         } else {
+//             document.getElementById("login-error").classList.remove("hidden")
+//         }
+//     }
+
+//     window.registrarse = function() {
+//         const nombre = document.getElementById("signup-nombre").value.trim()
+//         const usuario = document.getElementById("signup-email").value.trim()
+//         const password = document.getElementById("signup-password").value.trim()
+
+//         if (!nombre || !usuario || !password) {
+//             document.getElementById("signup-error").classList.remove("hidden")
+//             return
+//         }
+
+//         const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]")
+//         usuarios.push({ nombre, usuario, password })
+//         localStorage.setItem("usuarios", JSON.stringify(usuarios))
+
+//         document.getElementById("signup-error").classList.add("hidden")
+//         document.getElementById("signup-success").classList.remove("hidden")
+//         setTimeout(() => mostrarTab("login"), 1500)
+//     }
+// }

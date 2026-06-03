@@ -10,6 +10,8 @@ export function renderRouter() {
     if (router.setup) {
         router.setup();
     }
+
+    setupAppNavbar()
 }
 
 export function initRouter() {

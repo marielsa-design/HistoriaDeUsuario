@@ -4,8 +4,8 @@ import { renderLogin, setupLogin } from "../views/auth/login";
 import { renderDashboard, setupDashboard } from "../views/app/dashboard";
 import { renderAdmin, setupAdmin } from "../views/admin/admin";
 import { renderNotFound } from "../views/auth/notFound";
-import { renderTasks } from "../views/tasks/task";
-import { renderTaskForm } from "../views/tasks/taskForm";
+import { renderTasks, setupTasksView } from "../views/tasks/task";
+import { renderTaskForm, setupTasksFormView } from "../views/tasks/taskForm";
 
 export const routers = {
     "/": { 
@@ -28,17 +28,21 @@ export const routers = {
         render: renderDashboard,
         setup: setupDashboard,
         isAuthorized: true,
-        redirectIfNotAuthorized: true
     },
     "/tasks": {
         render: renderTasks,
+        setup: setupTasksView,
         isAuthorized: true,
-        redirectIfNotAuthorized: true
     },
-    "/task-form": {
+    "/task/new": {
         render: renderTaskForm,
+        setup: setupTasksFormView,
         isAuthorized: true,
-        redirectIfNotAuthorized: true
+    },
+    "/task/edit": {
+        render: renderTaskForm,
+        setup: setupTasksFormView,
+        isAuthorized: true,
     },
     "/admin": {
         render: renderAdmin,
