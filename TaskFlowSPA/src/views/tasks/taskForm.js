@@ -1,7 +1,7 @@
-import { getTasks, createTask, updateTask } from "../../api/api";
+import { renderTaskForm, setupTasksFormView } from "../../views/tasks/task";
 
 export function renderTaskForm() {
-    return `
+  return `
 <body class="min-h-screen bg-sky-50 text-slate-800">
   <header class="border-b border-blue-100 bg-white/90 backdrop-blur">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -53,40 +53,40 @@ export function renderTaskForm() {
 }
 
 export async function setupTasksFormView() {
-    const params = new URLSearchParams(window.location.search)
-    const id = params.get("id")
-    const isEdit = !!id
+  const params = new URLSearchParams(window.location.search)
+  const id = params.get("id")
+  const isEdit = !!id
 
-    if (isEdit) {
-        document.getElementById("form-title").textContent = "Editar tarea"
-        const tasks = await getTasks()
-        const task = tasks.find(t => String(t.id) === String(id))
-        if (task) {
-            document.getElementById("task-title").value = task.title
-            document.getElementById("task-description").value = task.description
-            document.getElementById("task-status").value = task.status
-        }
+  if (isEdit) {
+    document.getElementById("form-title").textContent = "Editar tarea"
+    const tasks = await getTasks()
+    const task = tasks.find(t => String(t.id) === String(id))
+    if (task) {
+      document.getElementById("task-title").value = task.title
+      document.getElementById("task-description").value = task.description
+      document.getElementById("task-status").value = task.status
+    }
+  }
+
+  document.getElementById("btn-submit").addEventListener("click", async () => {
+    const title = document.getElementById("task-title").value.trim()
+    const description = document.getElementById("task-description").value.trim()
+    const status = document.getElementById("task-status").value
+
+    if (!title || !description) {
+      document.getElementById("form-error").classList.remove("hidden")
+      return
     }
 
-    document.getElementById("btn-submit").addEventListener("click", async () => {
-        const title = document.getElementById("task-title").value.trim()
-        const description = document.getElementById("task-description").value.trim()
-        const status = document.getElementById("task-status").value
+    if (isEdit) {
+      await updateTask(id, { title, description, status })
+    } else {
+      await createTask({ title, description, status })
+    }
 
-        if (!title || !description) {
-            document.getElementById("form-error").classList.remove("hidden")
-            return
-        }
+    window.history.pushState({}, "", "/tasks")
 
-        if (isEdit) {
-            await updateTask(id, { title, description, status })
-        } else {
-            await createTask({ title, description, status })
-        }
-
-        window.history.pushState({}, "", "/tasks")
-        
-        const { renderRouter } = await import("../../router/router")
-        renderRouter()
-    })
+    const { renderRouter } = await import("../../router/router")
+    renderRouter()
+  })
 }
