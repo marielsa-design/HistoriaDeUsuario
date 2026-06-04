@@ -1,4 +1,4 @@
-import { getTasks, deleteTask } from "../../services/task.service.js"; 
+import { getTasks, deleteTask } from "../views/tasks/taskForm"; 
 
 export async function getTasks() {
     const response = await fetch("http://localhost:3001/tasks", {
